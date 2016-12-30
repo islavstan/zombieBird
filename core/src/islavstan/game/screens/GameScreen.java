@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 
 import islavstan.game.gameworld.GameRenderer;
 import islavstan.game.gameworld.GameWorld;
+import islavstan.game.zbHelpers.InputHandler;
 
 
 public class GameScreen implements Screen {
@@ -15,8 +16,17 @@ public class GameScreen implements Screen {
 
 
     public GameScreen(){
-        world = new GameWorld();
-        renderer=new GameRenderer(world);
+        float screenWidth = Gdx.graphics.getWidth();//получить ширину экрана
+        float screenHeight = Gdx.graphics.getHeight();//получить высоту экрана
+        float gameWidth = 136;
+        float gameHeight = screenHeight / (screenWidth / gameWidth);
+
+        int midPointY = (int) (gameHeight / 2);//узнаем середину экрана
+
+        world = new GameWorld(midPointY);
+        renderer = new GameRenderer(world);
+        Gdx.input.setInputProcessor(new InputHandler(world.getBird()));
+
     }
 
     @Override
