@@ -13,7 +13,7 @@ public class GameScreen implements Screen {
 
     private GameWorld world;
     private GameRenderer renderer;
-
+    private float runTime = 0;// будет храниться значение как долго шла игра
 
     public GameScreen(){
         float screenWidth = Gdx.graphics.getWidth();//получить ширину экрана
@@ -24,7 +24,7 @@ public class GameScreen implements Screen {
         int midPointY = (int) (gameHeight / 2);//узнаем середину экрана
 
         world = new GameWorld(midPointY);
-        renderer = new GameRenderer(world);
+        renderer = new GameRenderer(world, (int) gameHeight, midPointY);
         Gdx.input.setInputProcessor(new InputHandler(world.getBird()));
 
     }
@@ -36,8 +36,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {//Float delta это количество секунд которое прошло после последнего запуска метода render.
+        runTime += delta;
         world.update(delta);
-        renderer.render();
+        renderer.render(runTime);
     }
 
     @Override
